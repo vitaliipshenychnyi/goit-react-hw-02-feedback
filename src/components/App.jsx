@@ -19,16 +19,9 @@ export class App extends Component {
     return Math.round((this.state.good / this.countTotalFeedback()) * 100);
   };
 
-  addGoodFeedback = () => {
-    this.setState(prevState => ({ good: prevState.good + 1 }));
-  };
-
-  addNeutralFeedback = () => {
-    this.setState(prevState => ({ neutral: prevState.neutral + 1 }));
-  };
-
-  addBadFeedback = () => {
-    this.setState(prevState => ({ bad: prevState.bad + 1 }));
+  onLeaveFeedback = event => {
+    const { name } = event.currentTarget;
+    this.setState(prevState => ({ [name]: prevState[name] + 1 }));
   };
 
   render() {
@@ -37,9 +30,8 @@ export class App extends Component {
     return (
       <Section title="Please leave feedback">
         <FeedbackOptions
-          addGood={this.addGoodFeedback}
-          addNeutral={this.addNeutralFeedback}
-          addBad={this.addBadFeedback}
+          options={Object.keys(this.state)}
+          onLeaveFeedback={this.onLeaveFeedback}
         />
         {this.countTotalFeedback() ? (
           <Statistics
